@@ -50,25 +50,35 @@ function hashChangeHandler() {
   }
 }
 
+function updateDefImage() {
+  console.log("bleeeeeeh " + this.id + " " + this.value)
+  var img = document.getElementById("img" + this.id.slice(6));
+  var src = document.getElementById(this.value);
+  img.src = src.src;
+}
+
 var defenseSelectNames = ["select-def2", "select-def3", "select-def4", "select-def5" ];
 
 function addDefenseOptions() {
 
   defenseSelectNames.forEach(function (defenseSelect, index, array) {
     var d = document.getElementById(defenseSelect);
-    console.log(d);
+    //console.log(d);
+
     defenses.forEach(function (defenseName, index, array) {
-      
       opt = document.createElement("option");
       opt.value = defenseName;
       opt.innerHTML = defenseName.slice(6);
       d.appendChild(opt);
-      
-
     });
+
+
+    d.addEventListener("change", updateDefImage);
 
   });
 }
+
+
 
 function pageLoaded() {
   sectionNames.forEach(function (item, index, array) {
@@ -97,9 +107,9 @@ function setTeam() {
 }
 
 function prepMatch() {
-  document.getElementById("fieldSetup").style.display = "block";
-  document.getElementById("leftAlliance").style.display = "none";
-  document.getElementById("leftAllianceSelection").style.display = "block";
+//  document.getElementById("fieldSetup").style.display = "block";
+//  document.getElementById("leftAlliance").style.display = "none";
+//  document.getElementById("leftAllianceSelection").style.display = "block";
 }
 
 function setLeftAlliance(team) {

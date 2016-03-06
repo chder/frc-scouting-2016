@@ -7,15 +7,16 @@
   <script src="test-offline.js"></script>
 </head>
 <body onload="pageLoaded()" onhashchange="hashChangeHandler()">
+<form>
   <div class="nav-stuff" id="nav-left">
     <ul>
       <li><a href="#setup-mode">Setup</a></li>
+      <li><br /></li>
       <li><a href="#match-mode">Auto</a></li>
+      <li><br /></li>
       <li><a href="#match-mode">TeleOp</a></li>
+      <li><br /></li>
       <li><a href="#finish-mode">Done</a></li>
-      <li><br /></li>
-      <li><br /></li>
-      <li><br /></li>
       <li><br /></li>
       <li><br /></li>
       <li><a href="#prototype">Prototype</a></li>
@@ -31,9 +32,10 @@
     <div id="setup-mode" style="display: none">
       SETUP MODE<br />
       <table>
-        <tr><td>Scouter Name:</td><td colspan="3"><input id="scouterName" type="text" value="Uncredited Scout"></td></tr>
-        <tr><td>Scouter Quote:</td><td colspan="3"><textarea id="scouterComment" rows="4" cols="50">I'm here to watch robots and chew bubblegum and I'm all out of gum.</textarea></td></tr>
-        <tr><td>Match Number:</td><td><input id="matchNum" size="5" type="number" maximum="99999"><td>Team Number:</td><td><input id="teamNum" maxLength="5" type="number" maximum="99999"></td></tr>
+        <tr><td>Scout Name:</td><td colspan="3"><input id="scoutName" type="text" value="Uncredited Scout"></td></tr>
+        <tr><td>Scout Quote:</td><td colspan="3"><textarea id="scouterComment" rows="4">I'm here to watch robots and chew bubblegum and I'm all out of gum.</textarea></td></tr>
+        <tr><td>Match Number:</td><td>
+        <input id="matchNum" type="number" min="-1" max="99999"><td>Team Number:</td><td><input id="teamNum" type="number" min="-1" max="99999"></td></tr>
         <tr><td>Start Position:</td><td>
         <select id="startPos">
           <option value="def1">Defense 1 - Low Bar</option>
@@ -68,13 +70,10 @@
 
 <table id="scorekeeper">
 <tr>
-  <td>MATCH</td><td>Phase:</td><td>TeleOp</td><td>Crossed Defense</td><td>5</td>
-</tr>
-<tr>
   <td>Scored on:</td>
   <td>Shot missed:</td>
   <td>Def 1</td>
-  <td><img class="def" src="img/def-e-Low-Bar.png"></td>
+  <td><img class="def" id="img-def1" src="img/def-e-Low-Bar.png"></td>
   <td>Blocked Shot:</td>
 </tr>
 
@@ -82,7 +81,7 @@
   <td><img class="def" src="img/goal-high.png"></td>
   <td><img class="def" src="img/goal-high.png"></td>
   <td>Def 2</td>
-  <td><img class="def" src="img/def-b-Ramparts.png"></td>
+  <td><img class="def" id="img-def2" src="img/def-b-Ramparts.png"></td>
   <td><img class="def" src="img/goal-high.png"></td>
 </tr>
 
@@ -90,14 +89,14 @@
   <td></td>
   <td></td>
   <td>Def 3</td>
-  <td><img class="def" src="img/def-c-Sally-Port.png"></td>
+  <td><img class="def" id="img-def3" src="img/def-c-Sally-Port.png"></td>
   <td></td>
 </tr>
 <tr>
   <td><img class="def" src="img/goal-low.png"></td>
   <td><img class="def" src="img/goal-low.png"></td>
   <td>Def 4</td>
-  <td><img class="def" src="img/def-d-Rock-Wall.png"></td>
+  <td><img class="def" id="img-def4" src="img/def-d-Rock-Wall.png"></td>
   <td><img class="def" src="img/goal-low.png"></td>
 </tr>
 
@@ -105,8 +104,11 @@
   <td></td>
   <td></td>
   <td>Def 5</td>
-  <td><img class="def" src="img/def-a-Portcullis.png"></td>
+  <td><img class="def" id="img-def5" src="img/def-a-Portcullis.png"></td>
   <td></td>
+</tr>
+<tr>
+  <td>MATCH</td><td>Phase:</td><td>TeleOp</td><td>Crossed Defense</td><td>5</td>
 </tr>
 </table>
 
@@ -116,18 +118,16 @@
       FINISH MODE
             <h1>Stuff</h1>
       <div id="stuff" >Hello world.</div>
-
-            <img src="img/def-a-Cheval-de-Frise.png">
-      <img src="img/def-a-Portcullis.png">
-      <img src="img/def-b-Moat.png">
-      <img src="img/def-b-Ramparts.png">
-      <img src="img/def-c-Drawbridge.png">
-      <img src="img/def-c-Sally-Port.png">
-      <img src="img/def-d-Rock-Wall.png">
-      <img src="img/def-d-Rough-Terrain.png">
-      <img src="img/def-e-Low-Bar.png">
-      
-
+            <img id="def-a-Cheval-de-Frise" src="img/def-a-Cheval-de-Frise.png">
+            <img id="def-a-Portcullis" src="img/def-a-Portcullis.png">
+            <img id="def-a-Portcullis" src="img/def-a-Portcullis.png">
+            <img id="def-b-Moat" src="img/def-b-Moat.png">
+            <img id="def-b-Ramparts" src="img/def-b-Ramparts.png">
+            <img id="def-c-Drawbridge" src="img/def-c-Drawbridge.png">
+            <img id="def-c-Sally-Port" src="img/def-c-Sally-Port.png">
+            <img id="def-d-Rock-Wall" src="img/def-d-Rock-Wall.png">
+            <img id="def-d-Rough-Terrain" src="img/def-d-Rough-Terrain.png">
+            <img id="def-e-Low-Bar" src="img/def-e-Low-Bar.png">
     </div>
     <div id="prototype" style="display: none">
       <img src="img/prototype.png" width="100%" height="100%">
@@ -143,6 +143,7 @@
     </div>
   </div>
 
+</form>
 </body>
 </html>
 
