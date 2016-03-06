@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Offline Storage Test</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=4.0,minimum-scale=0.2" />
+  <link rel="stylesheet" href="test-offline.css">
+  <script src="test-offline.js"></script>
+</head>
+<body onload="pageLoaded()" onhashchange="hashChangeHandler()">
+  <div class="nav-stuff" id="nav-left">
+    <ul>
+      <li><a href="#setup-mode">Setup</a></li>
+      <li><a href="#match-mode">Auto</a></li>
+      <li><a href="#match-mode">TeleOp</a></li>
+      <li><a href="#finish-mode">Done</a></li>
+      <li><br /></li>
+      <li><br /></li>
+      <li><br /></li>
+      <li><br /></li>
+      <li><br /></li>
+      <li><a href="#prototype">Prototype</a></li>
+    </ul>
+  </div>
+  <div class="nav-stuff" id="content-area">
+    <div id="init-views" style="display: block">
+      Reticulating Splines
+      <a href="#setup-mode" onclick="switchSection()">Make it so.</a>
+      This is a placeholder view. If you're still looking at this, Javascript isn't working for some reason. Try a menu to the left.
+    
+    </div>
+    <div id="setup-mode" style="display: none">
+      SETUP MODE<br />
+      <table>
+        <tr><td>Scouter Name:</td><td colspan="3"><input id="scouterName" type="text" value="Uncredited Scout"></td></tr>
+        <tr><td>Scouter Quote:</td><td colspan="3"><textarea id="scouterComment" rows="4" cols="50">I'm here to watch robots and chew bubblegum and I'm all out of gum.</textarea></td></tr>
+        <tr><td>Match Number:</td><td><input id="matchNum" size="5" type="number" maximum="99999"><td>Team Number:</td><td><input id="teamNum" maxLength="5" type="number" maximum="99999"></td></tr>
+        <tr><td>Start Position:</td><td>
+        <select id="startPos">
+          <option value="def1">Defense 1 - Low Bar</option>
+          <option value="def2">Defense 2</option>
+          <option value="def3">Defense 3</option>
+          <option value="def4">Defense 4</option>
+          <option value="def5">Defense 5</option>
+          <option value="spy">Spy Bot</option>
+        </select>
+        </td>
+        <td>Defense&nbsp;1:</td><td>
+        <select id="select-def1">
+          <option value="def1">Always Low Bar</option>
+        </select>
+        </td>
+        </tr>
+        <tr>
+         <td>Defense&nbsp;2:</td><td><select id="select-def2"></select></td><td>Defense&nbsp;3:</td><td><select id="select-def3"></select></td>
+        </tr>
+        <tr>
+         <td>Defense&nbsp;4:</td><td><select id="select-def4"></select></td><td>Defense&nbsp;5:</td><td><select id="select-def5"></select></td>
+        </tr>
+      </table>      
+
+      
+      
+      <button type="button" onclick="setTeam()">Try it</button>
+      <button type="button" onclick="prepMatch()">Match Start</button>
+
+    </div>
+    <div id="match-mode" style="display: none">
+
+<table id="scorekeeper">
+<tr>
+  <td>MATCH</td><td>Phase:</td><td>TeleOp</td><td>Crossed Defense</td><td>5</td>
+</tr>
+<tr>
+  <td>Scored on:</td>
+  <td>Shot missed:</td>
+  <td>Def 1</td>
+  <td><img class="def" src="img/def-e-Low-Bar.png"></td>
+  <td>Blocked Shot:</td>
+</tr>
+
+<tr>
+  <td><img class="def" src="img/goal-high.png"></td>
+  <td><img class="def" src="img/goal-high.png"></td>
+  <td>Def 2</td>
+  <td><img class="def" src="img/def-b-Ramparts.png"></td>
+  <td><img class="def" src="img/goal-high.png"></td>
+</tr>
+
+<tr>
+  <td></td>
+  <td></td>
+  <td>Def 3</td>
+  <td><img class="def" src="img/def-c-Sally-Port.png"></td>
+  <td></td>
+</tr>
+<tr>
+  <td><img class="def" src="img/goal-low.png"></td>
+  <td><img class="def" src="img/goal-low.png"></td>
+  <td>Def 4</td>
+  <td><img class="def" src="img/def-d-Rock-Wall.png"></td>
+  <td><img class="def" src="img/goal-low.png"></td>
+</tr>
+
+<tr>
+  <td></td>
+  <td></td>
+  <td>Def 5</td>
+  <td><img class="def" src="img/def-a-Portcullis.png"></td>
+  <td></td>
+</tr>
+</table>
+
+
+    </div>
+    <div id="finish-mode" style="display: none">
+      FINISH MODE
+            <h1>Stuff</h1>
+      <div id="stuff" >Hello world.</div>
+
+            <img src="img/def-a-Cheval-de-Frise.png">
+      <img src="img/def-a-Portcullis.png">
+      <img src="img/def-b-Moat.png">
+      <img src="img/def-b-Ramparts.png">
+      <img src="img/def-c-Drawbridge.png">
+      <img src="img/def-c-Sally-Port.png">
+      <img src="img/def-d-Rock-Wall.png">
+      <img src="img/def-d-Rough-Terrain.png">
+      <img src="img/def-e-Low-Bar.png">
+      
+
+    </div>
+    <div id="prototype" style="display: none">
+      <img src="img/prototype.png" width="100%" height="100%">
+    </div>
+    <div id="always-invisible-preload" style="display: none">
+      <div id="defenses">
+        <div class="defenses" id="defense-1"><img src="img/def-e-Low-Bar.png"></div>
+        <div class="defenses" id="defense-2"><img src="img/def-b-Ramparts.png"></div>
+        <div class="defenses" id="defense-3"><img src="img/def-c-Sally-Port.png"></div>
+        <div class="defenses" id="defense-4"><img src="img/def-d-Rock-Wall.png"></div>
+        <div class="defenses" id="defense-5"><img src="img/def-a-Portcullis.png"></div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
+

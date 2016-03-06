@@ -1,0 +1,57 @@
+body {
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    background-color: #444;
+    font-family: 'Roboto', sans-serif;
+}
+
+div {
+    background-color: #ddd;
+    padding: 0px 0 0px 0px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 11%;
+    background-color: rgb(255, 207, 70);
+    color: #FFF;
+    height: 100%; /* Full height */
+    position: fixed; /* Make it stick, even on scroll */
+    overflow: auto; /* Enable scrolling if the sidenav has too much content */
+}
+
+#content-area {
+  margin-left:12%;
+  height:100%;"	
+  padding: 0px 0 0px 0px;
+
+}
+
+
+li a {
+    display: block;
+    color: rgb(34, 34, 85);
+    padding: 4px 0 4px 4px;
+    text-decoration: none;
+    font-size: 14px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+}
+
+/* Change the link color on hover */
+li a:hover {
+    background-color: #555;
+    color: white;
+}
+
+table#scorekeeper {
+    table-layout:auto;
+}
+
+img.def {
+    max-width: 85%;
+}
