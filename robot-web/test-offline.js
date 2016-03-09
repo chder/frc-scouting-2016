@@ -8,10 +8,6 @@
 * 
 */
 
-function sup(){
-  console.log("Sup?");
-}
-
 var sectionNames = ["finish-mode", "init-views", "setup-mode", "match-mode", "prototype"];
 var sections = new Map();
 
@@ -43,41 +39,61 @@ function switchSection(section) {
 }
 
 function hashChangeHandler() {
+  // Handles the left navigation bar.
   var section = location.hash.slice(1);
-  //console.log("[hashChangeHandler] " + section);
   if (sections.has(section)) {
     switchSection(section);
   }
 }
 
 function updateDefImage() {
-  console.log("bleeeeeeh " + this.id + " " + this.value)
+  // Handles the defense selectors on the setup screen.
   var img = document.getElementById("img" + this.id.slice(6));
   var src = document.getElementById(this.value);
   img.src = src.src;
 }
 
-var defenseSelectNames = ["select-def2", "select-def3", "select-def4", "select-def5" ];
+var defenseSelectNames = ["select-def1", "select-def2", "select-def3", "select-def4", "select-def5" ];
 
 function addDefenseOptions() {
 
   defenseSelectNames.forEach(function (defenseSelect, index, array) {
     var d = document.getElementById(defenseSelect);
-    //console.log(d);
 
-    defenses.forEach(function (defenseName, index, array) {
-      opt = document.createElement("option");
-      opt.value = defenseName;
-      opt.innerHTML = defenseName.slice(6);
-      d.appendChild(opt);
-    });
-
+    if (d.id != "select-def1") {
+      defenses.forEach(function (defenseName, index, array) {
+        opt = document.createElement("option");
+        opt.value = defenseName;
+        opt.innerHTML = defenseName.slice(6);
+        d.appendChild(opt);
+      });
+    }
 
     d.addEventListener("change", updateDefImage);
 
   });
 }
 
+function addLinkifyMatchMode() {
+  var imgs = document.getElementsByClassName("def");
+  console.log(imgs);
+
+  for (i = 0; i < imgs.length; i++) {
+    var img = imgs[i];
+    img.addEventListener("click", scoreHandler);
+  }
+}
+
+var scoutName;
+var scoutQuote;
+var scoutID;
+
+function loadSettings() {
+  var sn = localStorage.getItem("scoutName");
+  if (sn.length > 0) scoutName = sn;
+
+
+}
 
 
 function pageLoaded() {
@@ -85,12 +101,14 @@ function pageLoaded() {
   sections.set(item, document.getElementById(item));
   console.log(item + " : " + sections.get(item));
   });
-  
-  location.hash = "#"
-  location.hash = "#" + sectionNames[0]
- 
+
   getTeam();
   addDefenseOptions();
+  addLinkifyMatchMode();
+
+  // Toggles to deal with refreshing the page.
+  location.hash = "#";
+  location.hash = "#" + sectionNames[0];
 }
 
 function getTeam() {
@@ -107,9 +125,7 @@ function setTeam() {
 }
 
 function prepMatch() {
-//  document.getElementById("fieldSetup").style.display = "block";
-//  document.getElementById("leftAlliance").style.display = "none";
-//  document.getElementById("leftAllianceSelection").style.display = "block";
+
 }
 
 function setLeftAlliance(team) {
@@ -124,12 +140,6 @@ function setLeftAlliance(team) {
   thatP.style.display = "block";
 }
 
-function scoreHandler(thing) {
-  switch(thing) {
-    case 0:
-      break;
-    case "":
-
-
-  }
+function scoreHandler() {
+  console.log("[scoreHandler] " + this.id);
 }
