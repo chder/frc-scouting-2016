@@ -8,67 +8,96 @@
 </head>
 <body onload="pageLoaded()" onhashchange="hashChangeHandler()">
 <form>
+
+<!-- Nav Bar Stuff -->
   <div class="nav-stuff" id="nav-left">
-    <ul>
+    <ul id="left-nav">
       <li><a href="#setup-mode">Setup</a></li>
-      <li><br /></li>
       <li><a href="#match-mode">Auto</a></li>
-      <li><br /></li>
       <li><a href="#match-mode">TeleOp</a></li>
-      <li><br /></li>
       <li><a href="#finish-mode">Done</a></li>
-      <li><br /></li>
-      <li><br /></li>
       <li><a href="#prototype">Prototype</a></li>
+      <li><a href="#debug">π</a></li>
     </ul>
   </div>
+
+
+<!-- Main Content Area -->
   <div class="nav-stuff" id="content-area">
+
+<!-- Javascript is broken view -->
     <div id="init-views" style="display: block">
       Reticulating Splines
       <a href="#setup-mode" onclick="switchSection()">Make it so.</a>
-      This is a placeholder view. If you're still looking at this, Javascript isn't working for some reason. Try a menu to the left.
-    
+      This is a placeholder view. If you're still looking at this, Javascript isn't working for some reason. Try the menu to the left.
     </div>
+
+<!-- Match Setup menu -->    
     <div id="setup-mode" style="display: none">
       SETUP MODE<br />
-      <table>
+      <table height="100%" width="100%">
+        <!-- Row -->
         <tr><td>Scout Name:</td><td colspan="3"><input id="scoutName" type="text" value="Uncredited Scout"></td></tr>
+        
+        <!-- Row -->
         <tr><td>Scout Quote:</td><td colspan="3"><textarea id="scouterComment" rows="4">I'm here to watch robots and chew bubblegum and I'm all out of gum.</textarea></td></tr>
+        
+        <!-- Row  -->
         <tr><td>Match Number:</td><td>
-        <input id="matchNum" type="number" min="-1" max="99999"><td>Team Number:</td><td><input id="teamNum" type="number" min="-1" max="99999"></td></tr>
-        <tr><td>Start Position:</td><td>
-        <select id="startPos">
-          <option value="def1">Defense 1 - Low Bar</option>
-          <option value="def2">Defense 2</option>
-          <option value="def3">Defense 3</option>
-          <option value="def4">Defense 4</option>
-          <option value="def5">Defense 5</option>
-          <option value="spy">Spy Bot</option>
-        </select>
-        </td>
-        <td>Defense&nbsp;1:</td><td>
-        <select id="select-def1">
-          <option value="def1">Always Low Bar</option>
-        </select>
-        </td>
+        <input id="matchNum" type="number" min="-1" max="99999"><td>Team Number:</td><td><input id="teamNum" type="number" min="-1" max="99999"></td>
         </tr>
+
+        <!-- Your boat -->
+        <tr>
+          <td>Start Position:</td>
+          <td>
+            <select id="startPos">
+              <option value="def1">Defense 1 - Low Bar</option>
+              <option value="def2">Defense 2</option>
+              <option value="def3">Defense 3</option>
+              <option value="def4">Defense 4</option>
+              <option value="def5">Defense 5</option>
+              <option value="spy">Spy Bot</option>
+            </select>
+          </td>
+          <td>Defense&nbsp;1:</td><td>
+          <select id="select-def1">
+            <option value="def1">Always Low Bar</option>
+          </select>
+          </td>
+        </tr>
+        
+        <!-- Merrily -->
         <tr>
          <td>Defense&nbsp;2:</td><td><select id="select-def2"></select></td><td>Defense&nbsp;3:</td><td><select id="select-def3"></select></td>
         </tr>
+        
+        <!-- Merrily -->
         <tr>
          <td>Defense&nbsp;4:</td><td><select id="select-def4"></select></td><td>Defense&nbsp;5:</td><td><select id="select-def5"></select></td>
         </tr>
-      </table>      
+        
+        <!-- Merrily -->
+        <tr>
+          <td>Alliance:</td><td>
+            <select id="alliance">
+              <option value="undef">I don't know</option>
+              <option value="red"  >Red Team</option>
+              <option value="blue" >Blue Team</option>
+            </select></td>
+         <td><button type="button" onclick="setTeam()">Try it</button></td>
+         <td><button type="button" onclick="prepMatch()">Match Start</button></td>
+        </tr>
+      </table>
 
+            
       
-      
-      <button type="button" onclick="setTeam()">Try it</button>
-      <button type="button" onclick="prepMatch()">Match Start</button>
-
     </div>
+
+<!-- Match Mode for Auto and TeleOp -->
     <div id="match-mode" style="display: none">
 
-<table id="scorekeeper">
+<table id="scorekeeper" height="100%" width="100%">
 <tr>
   <td>Scored on:</td>
   <td>Shot missed:</td>
@@ -114,14 +143,19 @@
 
 
     </div>
+
+<!-- Summary Report and end of match info entry -->
     <div id="finish-mode" style="display: none">
       FINISH MODE
             <h1>Stuff</h1>
       <div id="stuff" >Hello world.</div>
 
-      <textarea id="eventlog" rows="16" cols="40"></textarea>
+      <button type="button" onclick="submitIfYouCan()">Gimmie JSON</button>
+      <textarea id="eventlog" rows="16" cols="40" readonly></textarea>
 
+<!-- These aren't in the "always-invisible-preload"" div just because I wanted to look at them for now -->
       Preloading images below:
+      <!-- The id's on these are important, the JS needs them. -->
             <img id="def-a-Cheval-de-Frise" src="img/def-a-Cheval-de-Frise.png">
             <img id="def-a-Portcullis" src="img/def-a-Portcullis.png">
             <img id="def-a-Portcullis" src="img/def-a-Portcullis.png">
@@ -133,9 +167,15 @@
             <img id="def-d-Rough-Terrain" src="img/def-d-Rough-Terrain.png">
             <img id="def-e-Low-Bar" src="img/def-e-Low-Bar.png">
     </div>
+
+<!-- The full screen prototype image --> 
     <div id="prototype" style="display: none">
+      <!-- If only I got the usemap working with variable screen sizes, totally would have just used this. -->
       <img src="img/prototype.png" width="100%" height="100%">
+
     </div>
+
+<!-- Move the preloading images into here when you're tired of looking at them. -->
     <div id="always-invisible-preload" style="display: none">
       <div id="defenses">
         <div class="defenses" id="defense-1"><img src="img/def-e-Low-Bar.png"></div>
@@ -145,8 +185,12 @@
         <div class="defenses" id="defense-5"><img src="img/def-a-Portcullis.png"></div>
       </div>
     </div>
-  </div>
 
+    <div id="debug" style="display: none">
+      3.14159265359
+    </div>
+
+  </div> <!-- End of Main Content Area -->
 </form>
 </body>
 </html>

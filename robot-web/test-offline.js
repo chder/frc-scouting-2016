@@ -1,4 +1,4 @@
-
+// Chris Derichs 2016
 /*
 * localStorage values:
 *
@@ -8,7 +8,7 @@
 * 
 */
 
-var sectionNames = ["finish-mode", "init-views", "setup-mode", "match-mode", "prototype"];
+var sectionNames = ["finish-mode", "init-views", "setup-mode", "match-mode", "prototype", "debug"];
 var sections = new Map();
 
 var defenses = [
@@ -22,9 +22,29 @@ var defenses = [
   "def-d-Rough-Terrain",
 ];
 
+var scoutName;
+var scoutQuote;
+var scoutID = -1;
+
+var matchNum = -1;
+
+var trackableEvents = new Map();
+var rowEntry = {timestamp:{},event:{}};
+var matchRecord = {matchNumber:-1, teamNum:-1, data:[]};
+
+var mastersettings = { 
+  scoutName:"Uncredited Scout",
+  scoutQuote:"I have nothing yet to say.",
+  scoutID:-1,
+  uploadedMatches:[],
+  pendingMatches:[] 
+};
+
 var scoreTap = { "goalhigh" : [24, 93, 101, 214]};
 
 var defenseDiv = document.getElementById("defenses");
+
+var eventlog;
 
 function switchSection(section) {
   sections.forEach(function (value, key) {
@@ -44,6 +64,8 @@ function hashChangeHandler() {
   if (sections.has(section)) {
     switchSection(section);
   }
+
+  saveSettings();
 }
 
 function updateDefImage() {
@@ -76,39 +98,87 @@ function addDefenseOptions() {
 
 function addLinkifyMatchMode() {
   var imgs = document.getElementsByClassName("def");
-  console.log(imgs);
-
+  
   for (i = 0; i < imgs.length; i++) {
     var img = imgs[i];
     img.addEventListener("click", scoreHandler);
+    trackableEvents[img.id] = 0;
   }
 }
 
-var scoutName;
-var scoutQuote;
-var scoutID;
+
 
 function loadSettings() {
-  var sn = localStorage.getItem("scoutName");
-  if (sn.length > 0) scoutName = sn;
+  console.log(mastersettings);
+  tmp = JSON.parse(localStorage.getItem("MasterSettings"));
+  if (tmp === null)
+    tmp = mastersettings;
 
+  mastersettings = tmp;
+  console.log(mastersettings);
+  scoutName.value = mastersettings.scoutName;
+}
+
+function saveSettings() {
+  setTeam();
+  mastersettings.scoutName = scoutName.value;
+  localStorage.setItem("MasterSettings", JSON.stringify(mastersettings));
+}
+
+function logSomething(something) {
+  var hmm = {timestamp:Date.now(), entry:something};
+  matchRecord.data.push(hmm);
+  eventlog.value = eventlog.value.concat(Date.now() + ", " + something + "\n");
+}
+
+function submitIfYouCan() {
+  eventlog.value = JSON.stringify(matchRecord);
+
+
+/*
+  // Trying to pop out some CSV but it's late and I can't iterate.
+  
+  matchRecord.data.forEach(function (data, index, array) {
+    trackableEvents[data.entry] = trackableEvents[data.entry] + 1;
+  });
+  
+  var reportL1 = "Line1, matchNum, teamNum, scoutID";
+  var reportL2 = "Line2, " + matchNum + ", " + teamNum + ", " + scoutID;
+
+  trackableEvents.forEach(function (value, key, map) {
+    reportL1 = reportL1 + ", " + key;
+    reportL2 = reportL2 + ", " + value;
+  });
+
+  console.log(reportL1);
+  console.log(reportL2);
+*/
 
 }
 
-
 function pageLoaded() {
-  sectionNames.forEach(function (item, index, array) {
-  sections.set(item, document.getElementById(item));
-  console.log(item + " : " + sections.get(item));
+    sectionNames.forEach(function (item, index, array) {
+    sections.set(item, document.getElementById(item));
   });
+
+  eventlog = document.getElementById("eventlog");
+  scoutName = document.getElementById("scoutName");
+  scoutQuote = document.getElementById("scouterComment");
 
   getTeam();
   addDefenseOptions();
   addLinkifyMatchMode();
 
+  loadSettings();
+  if (mastersettings.scoutID < 0) {
+    // Something probably unique. Doesn't matter that it won't be secret or guarenteed to be unique. I'm willing to risk collisions.'
+    mastersettings.scoutID = Date.now() + "-" + Math.floor((Math.random() * 256 * 256));
+  }
+
   // Toggles to deal with refreshing the page.
   location.hash = "#";
   location.hash = "#" + sectionNames[0];
+  logSomething("Begin Report");
 }
 
 function getTeam() {
@@ -118,13 +188,15 @@ function getTeam() {
 }
 
 function setTeam() {
-  var thatP = document.getElementById("stuff");
   var teamNum = document.getElementById("teamNum").value;
   localStorage.setItem("lastTeam",teamNum);
-  thatP.innerHTML = "And the magic number is: " + teamNum + " at " + Date.now();
 }
 
 function prepMatch() {
+  var matchSettings = { alliance:"red", teamNum:"12345", scoutName:scoutName};
+  matchNum = document.getElementById("matchNum").value;
+  
+  logSomething( JSON.stringify(matchSettings) );
 
 }
 
@@ -142,4 +214,5 @@ function setLeftAlliance(team) {
 
 function scoreHandler() {
   console.log("[scoreHandler] " + this.id);
+  logSomething(this.id);
 }
